@@ -6,7 +6,7 @@ public class TicTacToe {
 
     private JFrame frame;
     private int width, height;
-    private char[][] board = new char[3][3];
+    private JButton[][] button;
     private char currentPlayer = 'X';
 
     // constructor 
@@ -14,6 +14,15 @@ public class TicTacToe {
         frame = new JFrame();
         width = this.width;
         height = this.height;
+        button = new JButton[3][3];
+
+        // set up the board
+        for (int row = 0; row < button.length; row++) {
+            for (int col = 0; col < button[0].length; col++) {
+                button[row][col] = new JButton("");
+                frame.add(button[row][col]);
+            }
+        }
     }
 
     public void setUpTicTacToe() {
