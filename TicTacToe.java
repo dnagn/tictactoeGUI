@@ -1,27 +1,39 @@
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.*;
 
 public class TicTacToe implements ActionListener {
 
     private JFrame frame;
+    private JPanel panel, wrapper;
     private int width, height;
     private JButton[][] button;
     private String currentPlayer = "X";
 
     // constructor 
-    public TicTacToe(int width, int height) {
+    public TicTacToe() {
         frame = new JFrame();
-        width = this.width;
-        height = this.height;
+        width = 400;
+        height = 400;
+        panel = new JPanel();
+        wrapper = new JPanel();
         button = new JButton[3][3];
     }
 
     public void setUpTicTacToe() {
-        frame.setLayout(new GridLayout(3, 3));
-        frame.setSize(width, height);
-        setUpBoard(button);
         frame.setTitle("Tic Tac Toe");
+        frame.setSize(width, height);
+        //frame.setLocationRelativeTo(null);
+        panel.setBackground(new Color(178, 123, 206));
+        panel.setLayout(new GridLayout(3, 3, 0, 0));
+        panel.setPreferredSize(new Dimension(300, 300));
+        frame.getContentPane().add(panel, BorderLayout.CENTER);
+        setUpBoard();
+        wrapper.setLayout(new GridBagLayout());
+        wrapper.setBackground(new Color(178, 123, 206)); // center its content
+        wrapper.add(panel); // add the game board panel to center
+        frame.getContentPane().add(wrapper);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
@@ -31,7 +43,7 @@ public class TicTacToe implements ActionListener {
         for (int row = 0; row < button.length; row++) {
             for (int col = 0; col < button[0].length; col++) {
                 if (clickedButoon == button[row][col]) {
-                    // check if the clicked button is empty
+                    // check if the clicked button is empty beofore placing the letter
                     if (!ifEmpty(row, col)) {
                         System.out.println("Try again!");
                     } else {
@@ -53,13 +65,13 @@ public class TicTacToe implements ActionListener {
         }
     }
 
-    private void setUpBoard(JButton[][] button) {
+    private void setUpBoard() {
         for (int row = 0; row < button.length; row++) {
             for (int col = 0; col < button[0].length; col++) {
                 button[row][col] = new JButton(" ");
                 button[row][col].addActionListener(this);
                 button[row][col].setEnabled(true);
-                frame.add(button[row][col]);
+                panel.add(button[row][col]);
             }
         }
     }
