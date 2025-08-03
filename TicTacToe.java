@@ -54,6 +54,7 @@ public class TicTacToe implements ActionListener {
                     // check if there's a winner
                     if(winnerFound(currentPlayer)) {
                         System.out.println("Player " + currentPlayer + "won!");
+                        disableButtons();
                         return;
                     }
                     currentPlayer = currentPlayer.equals("X") ? "Y" : "X";
@@ -74,6 +75,14 @@ public class TicTacToe implements ActionListener {
                 button[row][col].setContentAreaFilled(true); 
                 button[row][col].setOpaque(true);         
                 panel.add(button[row][col]);
+            }
+        }
+    }
+
+    private void disableButtons() {
+        for (int row = 0; row < button.length; row++) {
+            for (int col = 0; col < button[0].length; col++) {
+                button[row][col].setEnabled(false);
             }
         }
     }
