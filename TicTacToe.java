@@ -52,16 +52,14 @@ public class TicTacToe implements ActionListener {
                             );
                     }
 
-                    // check if there's a winner
+                    // check for a winner or a draw
                     if(winnerFound(currentPlayer)) {
                         System.out.println("Player " + currentPlayer + "won!");
                         disableButtons();
                         return;
-                    }
-
-                    //check for a draw
-                    if(ifDraw()) {
+                    } else if(ifDraw()) {
                         disableButtons();
+                        return;
                     }
                     currentPlayer = currentPlayer.equals("X") ? "Y" : "X";
                 }
