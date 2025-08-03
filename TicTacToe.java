@@ -8,7 +8,7 @@ public class TicTacToe implements ActionListener {
     private JFrame frame;
     private JPanel panel, wrapper;
     private int width, height;
-    private JButton[][] button;
+    private JButton[][] boardButtons;
     private String currentPlayer = "X";
 
     // constructor 
@@ -18,7 +18,7 @@ public class TicTacToe implements ActionListener {
         height = 400;
         panel = new JPanel();
         wrapper = new JPanel();
-        button = new JButton[3][3];
+        boardButtons = new JButton[3][3];
     }
 
     public void setUpTicTacToe() {
@@ -39,15 +39,15 @@ public class TicTacToe implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         Object clickedButoon = e.getSource();
-        for (int row = 0; row < button.length; row++) {
-            for (int col = 0; col < button[0].length; col++) {
-                if (clickedButoon == button[row][col]) {
+        for (int row = 0; row < boardButtons.length; row++) {
+            for (int col = 0; col < boardButtons[0].length; col++) {
+                if (clickedButoon == boardButtons[row][col]) {
                     // check if the clicked button is empty beofore placing the letter
                     if (!ifEmpty(row, col)) {
                         System.out.println("Try again!");
                     } else {
-                        button[row][col].setText(currentPlayer);
-                        button[row][col].setForeground(
+                        boardButtons[row][col].setText(currentPlayer);
+                        boardButtons[row][col].setForeground(
                             currentPlayer.equals("X") ? new Color(245, 114, 114) : new Color(51, 153, 255)
                             );
                     }
@@ -68,31 +68,31 @@ public class TicTacToe implements ActionListener {
     }
 
     private void setUpBoard() {
-        for (int row = 0; row < button.length; row++) {
-            for (int col = 0; col < button[0].length; col++) {
-                button[row][col] = new JButton(" ");
-                button[row][col].setFont(new Font("Comic Sans MS", Font.BOLD, 34));
-                button[row][col].setBackground(new Color(240, 248, 255));
-                button[row][col].addActionListener(this);
-                button[row][col].setEnabled(true);
-                button[row][col].setBorderPainted(false);
-                button[row][col].setContentAreaFilled(true); 
-                button[row][col].setOpaque(true);         
-                panel.add(button[row][col]);
+        for (int row = 0; row < boardButtons.length; row++) {
+            for (int col = 0; col < boardButtons[0].length; col++) {
+                boardButtons[row][col] = new JButton(" ");
+                boardButtons[row][col].setFont(new Font("Comic Sans MS", Font.BOLD, 34));
+                boardButtons[row][col].setBackground(new Color(240, 248, 255));
+                boardButtons[row][col].addActionListener(this);
+                boardButtons[row][col].setEnabled(true);
+                boardButtons[row][col].setBorderPainted(false);
+                boardButtons[row][col].setContentAreaFilled(true); 
+                boardButtons[row][col].setOpaque(true);         
+                panel.add(boardButtons[row][col]);
             }
         }
     }
 
     private void disableButtons() {
-        for (int row = 0; row < button.length; row++) {
-            for (int col = 0; col < button[0].length; col++) {
-                button[row][col].setEnabled(false);
+        for (int row = 0; row < boardButtons.length; row++) {
+            for (int col = 0; col < boardButtons[0].length; col++) {
+                boardButtons[row][col].setEnabled(false);
             }
         }
     }
 
     private boolean ifEmpty(int row, int col) {
-        if (button[row][col].getText().equals(" ")) {
+        if (boardButtons[row][col].getText().equals(" ")) {
             return true;
         } 
         return false;
@@ -100,25 +100,25 @@ public class TicTacToe implements ActionListener {
 
     private boolean winnerFound(String player) {
         // check for rows
-        for (int row = 0; row < button.length; row++) {
-            if (button[row][0].getText().equals(player) && button[row][1].getText().equals(player) && button[row][2].getText().equals(player)) {
+        for (int row = 0; row < boardButtons.length; row++) {
+            if (boardButtons[row][0].getText().equals(player) && boardButtons[row][1].getText().equals(player) && boardButtons[row][2].getText().equals(player)) {
                 return true;
             }
         }
 
         // check for columns
-        for (int col = 0; col < button[0].length; col++) {
-            if (button[0][col].getText().equals(player) && button[1][col].getText().equals(player) && button[2][col].getText().equals(player)) {
+        for (int col = 0; col < boardButtons[0].length; col++) {
+            if (boardButtons[0][col].getText().equals(player) && boardButtons[1][col].getText().equals(player) && boardButtons[2][col].getText().equals(player)) {
                 return true;
             } 
         }
 
         // check for diagonals
-        if (button[0][0].getText().equals(player) && button[1][1].getText().equals(player) && button[2][2].getText().equals(player)) {
+        if (boardButtons[0][0].getText().equals(player) && boardButtons[1][1].getText().equals(player) && boardButtons[2][2].getText().equals(player)) {
             return true;
         }
 
-        if (button[0][2].getText().equals(player) && button[1][1].getText().equals(player) && button[2][0].getText().equals(player)) {
+        if (boardButtons[0][2].getText().equals(player) && boardButtons[1][1].getText().equals(player) && boardButtons[2][0].getText().equals(player)) {
             return true;
         }
 
@@ -126,9 +126,9 @@ public class TicTacToe implements ActionListener {
     } 
 
     private boolean ifDraw() {
-        for (int row = 0; row < button.length; row++) {
-            for (int col = 0; col < button[0].length; col++) {
-                if (button[row][col].getText().equals(" ")) {
+        for (int row = 0; row < boardButtons.length; row++) {
+            for (int col = 0; col < boardButtons[0].length; col++) {
+                if (boardButtons[row][col].getText().equals(" ")) {
                     return false;
                 }
             }
