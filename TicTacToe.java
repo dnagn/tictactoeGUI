@@ -51,11 +51,17 @@ public class TicTacToe implements ActionListener {
                             currentPlayer.equals("X") ? new Color(245, 114, 114) : new Color(51, 153, 255)
                             );
                     }
+
                     // check if there's a winner
                     if(winnerFound(currentPlayer)) {
                         System.out.println("Player " + currentPlayer + "won!");
                         disableButtons();
                         return;
+                    }
+
+                    //check for a draw
+                    if(ifDraw()) {
+                        disableButtons();
                     }
                     currentPlayer = currentPlayer.equals("X") ? "Y" : "X";
                 }
@@ -102,7 +108,7 @@ public class TicTacToe implements ActionListener {
             }
         }
 
-        // check for collumns
+        // check for columns
         for (int col = 0; col < button[0].length; col++) {
             if (button[0][col].getText().equals(player) && button[1][col].getText().equals(player) && button[2][col].getText().equals(player)) {
                 return true;
@@ -120,6 +126,17 @@ public class TicTacToe implements ActionListener {
 
         return false;
     } 
+
+    private boolean ifDraw() {
+        for (int row = 0; row < button.length; row++) {
+            for (int col = 0; col < button[0].length; col++) {
+                if (button[row][col].getText().equals(" ")) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 
 
 }
