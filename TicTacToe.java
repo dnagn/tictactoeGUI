@@ -24,9 +24,8 @@ public class TicTacToe implements ActionListener {
     public void setUpTicTacToe() {
         frame.setTitle("Tic Tac Toe");
         frame.setSize(width, height);
-        //frame.setLocationRelativeTo(null);
         panel.setBackground(new Color(178, 123, 206));
-        panel.setLayout(new GridLayout(3, 3, 0, 0));
+        panel.setLayout(new GridLayout(3, 3, 8, 8));
         panel.setPreferredSize(new Dimension(300, 300));
         frame.getContentPane().add(panel, BorderLayout.CENTER);
         setUpBoard();
@@ -48,18 +47,16 @@ public class TicTacToe implements ActionListener {
                         System.out.println("Try again!");
                     } else {
                         button[row][col].setText(currentPlayer);
+                        button[row][col].setForeground(
+                            currentPlayer.equals("X") ? new Color(245, 114, 114) : new Color(51, 153, 255)
+                            );
                     }
                     // check if there's a winner
                     if(winnerFound(currentPlayer)) {
                         System.out.println("Player " + currentPlayer + "won!");
                         return;
                     }
-
-                    if (currentPlayer.equals("X")) {
-                        currentPlayer = "Y";
-                    } else {
-                        currentPlayer = "X"
-;                    }
+                    currentPlayer = currentPlayer.equals("X") ? "Y" : "X";
                 }
             }
         }
@@ -69,8 +66,13 @@ public class TicTacToe implements ActionListener {
         for (int row = 0; row < button.length; row++) {
             for (int col = 0; col < button[0].length; col++) {
                 button[row][col] = new JButton(" ");
+                button[row][col].setFont(new Font("Comic Sans MS", Font.BOLD, 34));
+                button[row][col].setBackground(new Color(240, 248, 255));
                 button[row][col].addActionListener(this);
                 button[row][col].setEnabled(true);
+                button[row][col].setBorderPainted(false);
+                button[row][col].setContentAreaFilled(true); 
+                button[row][col].setOpaque(true);         
                 panel.add(button[row][col]);
             }
         }
