@@ -9,39 +9,43 @@ public class TicTacToe implements ActionListener {
     private JPanel panel, wrapper;
     private int width, height;
     private JButton[][] boardButtons;
+    private JButton restartButton;
     private String currentPlayer = "X";
 
     // constructor 
     public TicTacToe() {
         frame = new JFrame();
-        width = 400;
-        height = 400;
+        width = 600;
+        height = 600;
         panel = new JPanel();
         wrapper = new JPanel();
         boardButtons = new JButton[3][3];
+        restartButton = new JButton("Restart Game");
     }
 
     public void setUpTicTacToe() {
+        Container contentPane = frame.getContentPane();
         frame.setTitle("Tic Tac Toe");
         frame.setSize(width, height);
+        contentPane.add(restartButton, BorderLayout.NORTH);
         panel.setBackground(new Color(178, 123, 206));
         panel.setLayout(new GridLayout(3, 3, 8, 8));
         panel.setPreferredSize(new Dimension(300, 300));
-        frame.getContentPane().add(panel, BorderLayout.CENTER);
+        contentPane.add(panel, BorderLayout.CENTER);
         setUpBoard();
         wrapper.setLayout(new GridBagLayout());
         wrapper.setBackground(new Color(178, 123, 206)); // center its content
         wrapper.add(panel); // add the game board panel to center
-        frame.getContentPane().add(wrapper);
+        contentPane.add(wrapper);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
 
     public void actionPerformed(ActionEvent e) {
-        Object clickedButoon = e.getSource();
+        Object clickedButton = e.getSource();
         for (int row = 0; row < boardButtons.length; row++) {
             for (int col = 0; col < boardButtons[0].length; col++) {
-                if (clickedButoon == boardButtons[row][col]) {
+                if (clickedButton == boardButtons[row][col]) {
                     // check if the clicked button is empty beofore placing the letter
                     if (!ifEmpty(row, col)) {
                         System.out.println("Try again!");
@@ -56,18 +60,21 @@ public class TicTacToe implements ActionListener {
                     if(winnerFound(currentPlayer)) {
                         System.out.println("Player " + currentPlayer + "won!");
                         disableButtons();
-                        return;
                     } else if(ifDraw()) {
                         disableButtons();
-                        return;
                     }
-                    currentPlayer = currentPlayer.equals("X") ? "Y" : "X";
+                    currentPlayer = currentPlayer.equals("X") ? "Y" : "X"; 
+                } else if (clickedButton == restartButton) {
+                    setUpBoard();
+                    currentPlayer = "X";
                 }
+
             }
         }
     }
 
     private void setUpBoard() {
+        panel.removeAll(); // clear the panel before setting up the board
         for (int row = 0; row < boardButtons.length; row++) {
             for (int col = 0; col < boardButtons[0].length; col++) {
                 boardButtons[row][col] = new JButton(" ");
@@ -81,6 +88,9 @@ public class TicTacToe implements ActionListener {
                 panel.add(boardButtons[row][col]);
             }
         }
+        panel.revalidate(); // refresh the panel to show the new buttons
+        panel.repaint(); // repaint the panel to ensure the buttons are displayed
+        restartButton.addActionListener(this); 
     }
 
     private void disableButtons() {
