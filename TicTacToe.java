@@ -6,11 +6,12 @@ import java.awt.event.*;
 public class TicTacToe implements ActionListener {
 
     private JFrame frame;
-    private JPanel panel, wrapper;
+    private JPanel panel, middlePanel, topPanel;
     private int width, height;
     private JButton[][] boardButtons;
     private JButton restartButton;
     private String currentPlayer = "X";
+    private JLabel turnLabel;
 
     // constructor 
     public TicTacToe() {
@@ -18,25 +19,39 @@ public class TicTacToe implements ActionListener {
         width = 600;
         height = 600;
         panel = new JPanel();
-        wrapper = new JPanel();
+        middlePanel = new JPanel();
+        topPanel = new JPanel();
+        turnLabel = new JLabel();
         boardButtons = new JButton[3][3];
         restartButton = new JButton("Restart Game");
+        restartButton.setPreferredSize(new Dimension(110, 60));
     }
 
     public void setUpTicTacToe() {
         Container contentPane = frame.getContentPane();
         frame.setTitle("Tic Tac Toe");
         frame.setSize(width, height);
-        contentPane.add(restartButton, BorderLayout.NORTH);
+
+        topPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+        topPanel.setPreferredSize(new Dimension(width, 80));
+        topPanel.setBackground(new Color(178, 123, 206));
+        turnLabel.setText(currentPlayer + "'s turn");
+        topPanel.add(turnLabel);
+        topPanel.add(restartButton);
+        contentPane.add(topPanel, BorderLayout.PAGE_START);
+
+
         panel.setBackground(new Color(178, 123, 206));
         panel.setLayout(new GridLayout(3, 3, 8, 8));
         panel.setPreferredSize(new Dimension(300, 300));
         contentPane.add(panel, BorderLayout.CENTER);
+
+        middlePanel.setLayout(new GridBagLayout());
+        middlePanel.setBackground(new Color(178, 123, 206)); // center its content
+        middlePanel.add(panel); // add the game board panel to center
+        contentPane.add(middlePanel);
+
         setUpBoard();
-        wrapper.setLayout(new GridBagLayout());
-        wrapper.setBackground(new Color(178, 123, 206)); // center its content
-        wrapper.add(panel); // add the game board panel to center
-        contentPane.add(wrapper);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
@@ -59,16 +74,20 @@ public class TicTacToe implements ActionListener {
                     // check for a winner or a draw
                     if(winnerFound(currentPlayer)) {
                         System.out.println("Player " + currentPlayer + "won!");
+                        turnLabel.setVisible(false);
+                        restartButton.setVisible(true);
                         disableButtons();
                     } else if(ifDraw()) {
+                        restartButton.setVisible(true);
+                        turnLabel.setVisible(false);
                         disableButtons();
                     }
                     currentPlayer = currentPlayer.equals("X") ? "Y" : "X"; 
+                    turnLabel.setText(currentPlayer + "'s turn");
                 } else if (clickedButton == restartButton) {
-                    setUpBoard();
                     currentPlayer = "X";
+                    setUpBoard();
                 }
-
             }
         }
     }
@@ -88,6 +107,8 @@ public class TicTacToe implements ActionListener {
                 panel.add(boardButtons[row][col]);
             }
         }
+        restartButton.setVisible(false); // restart button is hidden when a new game starts
+        turnLabel.setVisible(true);
         panel.revalidate(); // refresh the panel to show the new buttons
         panel.repaint(); // repaint the panel to ensure the buttons are displayed
         restartButton.addActionListener(this); 
