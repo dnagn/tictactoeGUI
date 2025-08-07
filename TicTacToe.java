@@ -62,7 +62,7 @@ public class TicTacToe implements ActionListener {
             for (int col = 0; col < boardButtons[0].length; col++) {
                 if (clickedButton == boardButtons[row][col]) {
                     // check if the clicked button is empty beofore placing the letter
-                    if (!ifEmpty(row, col)) {
+                    if (!isBoardEmpty(row, col)) {
                         System.out.println("Try again!");
                     } else {
                         boardButtons[row][col].setText(currentPlayer);
@@ -86,6 +86,7 @@ public class TicTacToe implements ActionListener {
                     turnLabel.setText(currentPlayer + "'s turn");
                 } else if (clickedButton == restartButton) {
                     currentPlayer = "X";
+                    turnLabel.setText(currentPlayer + "'s turn");
                     setUpBoard();
                 }
             }
@@ -122,7 +123,7 @@ public class TicTacToe implements ActionListener {
         }
     }
 
-    private boolean ifEmpty(int row, int col) {
+    private boolean isBoardEmpty(int row, int col) {
         if (boardButtons[row][col].getText().equals(" ")) {
             return true;
         } 
